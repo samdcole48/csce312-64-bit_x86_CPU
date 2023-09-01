@@ -1,0 +1,33 @@
+0x000: 30f20300000000000000 | irmovq $3, %rdx     # -3
+0x00a: 30fa8700000000000000 | irmovq $less, %r10   # Address of less into r10 
+0x014: 30fb9200000000000000 | irmovq $equal, %r11  # Address of equal into r11
+0x01e: 40250000000000000000 | rmmovq %rdx, (%rbp)  # -3 in %rbp memory
+0x028: 30f00a00000000000000 | irmovq $10, %rax     # 10 in rax
+0x032: 50d50000000000000000 | mrmovq (%rbp), %r13  # r13 = -3
+0x03c: 61d0                 | subq %r13, %rax    # 10 - (-3) = 13 rax
+0x03e: 30f85100000000000000 | irmovq $greater_equal, %r8  # address of greater_equal in r8
+0x048: 755100000000000000   | jge greater_equal   # do the jump to greater_equal. bc SF = 0
+                            | 
+0x051:                      | greater_equal: 
+0x051: 60d0                 |   addq %r13, %rax   # 13 + (-3) =  10 rax
+0x053: 30f30100000000000000 |   irmovq $1, %rbx     # rbx = 1
+0x05d: 10                   |   nop                 # nothing 
+0x05e: 6130                 |   subq %rbx, %rax     # 10 - 1 = 9 rax
+0x060: 30f97300000000000000 |   irmovq $Loop, %r9   # save address of Loop in r9
+0x06a: 767300000000000000   |   jg Loop             #Jmp to loop bc ZF = 0 && SF = 0
+                            | 
+0x073:                      | Loop:
+0x073: 6130                 |   subq %rbx, %rax    # 9 - 1 = 8 rax
+0x075: 757300000000000000   |   jge Loop           # Loop until rax = -1 bc SF = 1
+0x07e: 728700000000000000   |   jl less            # jmp bc SF = 1 && ZF = 0
+                            | 
+0x087:                      | less:
+0x087: 6130                 |   subq %rbx, %rax    # -1 - (-1) = 0 rax, ZF = 1 
+0x089: 739200000000000000   |   je equal           # jmp bc ZF = 1
+                            | 
+0x092:                      | equal:
+0x092: 30fca500000000000000 |   irmovq $End, %r12   # load address of End into r12
+0x09c: 70a500000000000000   |   jmp End             # jmp to End.          
+                            | 
+0x0a5:                      | End:
+0x0a5: 00                   |   halt                 # end the program

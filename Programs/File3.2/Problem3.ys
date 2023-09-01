@@ -1,0 +1,18 @@
+irmovq $less_equal, %rdx #moving address le to rdx
+irmovq $not_equal, %r11
+irmovq $105, %rax       #rax = 105
+irmovq $22, %rcx        #rcx = 22
+andq   %rax, %rcx       #rcx = 0, ZF = 1
+jle less_equal
+
+less_equal: 
+  irmovq $42, %rcx      #rcx = 42
+  irmovq $84, %rdi      #rdi = 84
+  subq %rdi, %rax       #105 - 84 = 21
+  xorq %rcx, %rax       # 42 ^ 22 = 63 ZF = 0
+  jne not_equal         #jump to not equal
+
+not_equal:
+  halt                  #end program
+
+

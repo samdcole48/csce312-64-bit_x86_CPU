@@ -1,0 +1,33 @@
+irmovq $3, %rdx     # -3
+irmovq $less, %r10   # Address of less into r10 
+irmovq $equal, %r11  # Address of equal into r11
+rmmovq %rdx, (%rbp)  # -3 in %rbp memory
+irmovq $10, %rax     # 10 in rax
+mrmovq (%rbp), %r13  # r13 = -3
+subq %r13, %rax    # 10 - (-3) = 13 rax
+irmovq $greater_equal, %r8  # address of greater_equal in r8
+jge greater_equal   # do the jump to greater_equal. bc SF = 0
+
+greater_equal: 
+  addq %r13, %rax   # 13 + (-3) =  10 rax
+  irmovq $1, %rbx     # rbx = 1
+  nop                 # nothing 
+  subq %rbx, %rax     # 10 - 1 = 9 rax
+  irmovq $Loop, %r9   # save address of Loop in r9
+  jg Loop             #Jmp to loop bc ZF = 0 && SF = 0
+
+Loop:
+  subq %rbx, %rax    # 9 - 1 = 8 rax
+  jge Loop           # Loop until rax = -1 bc SF = 1
+  jl less            # jmp bc SF = 1 && ZF = 0
+
+less:
+  subq %rbx, %rax    # -1 - (-1) = 0 rax, ZF = 1 
+  je equal           # jmp bc ZF = 1
+
+equal:
+  irmovq $End, %r12   # load address of End into r12
+  jmp End             # jmp to End.          
+
+End:
+  halt                 # end the program

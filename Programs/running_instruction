@@ -1,0 +1,3 @@
+In a python environment, run the following command
+
+python yo2mem.py --yo <source_file_name>.yo --mem <memory_file_name>.mem

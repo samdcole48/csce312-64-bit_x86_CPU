@@ -1,0 +1,18 @@
+0x000: 30f23300000000000000 | irmovq $less_equal, %rdx #moving address le to rdx
+0x00a: 30fb5400000000000000 | irmovq $not_equal, %r11
+0x014: 30f06900000000000000 | irmovq $105, %rax       #rax = 105
+0x01e: 30f11600000000000000 | irmovq $22, %rcx        #rcx = 22
+0x028: 6201                 | andq   %rax, %rcx       #rcx = 0, ZF = 1
+0x02a: 713300000000000000   | jle less_equal
+                            | 
+0x033:                      | less_equal: 
+0x033: 30f12a00000000000000 |   irmovq $42, %rcx      #rcx = 42
+0x03d: 30f75400000000000000 |   irmovq $84, %rdi      #rdi = 84
+0x047: 6170                 |   subq %rdi, %rax       #105 - 84 = 21
+0x049: 6310                 |   xorq %rcx, %rax       # 42 ^ 22 = 63 ZF = 0
+0x04b: 745400000000000000   |   jne not_equal         #jump to not equal
+                            | 
+0x054:                      | not_equal:
+0x054: 00                   |   halt                  #end program
+                            | 
+                            | 
